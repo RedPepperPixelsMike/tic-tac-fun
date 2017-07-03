@@ -1,0 +1,13 @@
+{
+  "test": {
+    "PORT": 3000,
+    "MONGODB_URI": "mongodb://localhost:27017/TicTacChatTest",
+    "JWT_SECRET": "poupouwfpoawjfpaojfn"
+  },
+
+  "development": {
+    "PORT": 3000,
+    "MONGODB_URI": "mongodb://localhost:27017/TickTacChat",
+    "JWT_SECRET": "poupouwfpoaweojfpoawjfe"
+  }
+}
