@@ -1,3 +1,5 @@
+require('./../config/config');
+
 const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');

@@ -1,15 +1,24 @@
 
 let {User} = require('./../models/user');
 let {authenticate} = require('./../middleware/authenticate');
+let express = require('express');
+let router = express.Router();
+const _ = require('lodash');
 
 
-app.post('/users', async (req, res) => {
-
+router.post('/', async (req, res) => {
+        console.log('Got in here');
     try {
+        console.log('Got in here 1');
         const body = _.pick(req.body, ['email', 'password']);
+        console.log('Got in here 2');
         const user = new User(body);
+        console.log('Got in here 3');
+        console.log(process.env.MONGODB_URI);
         await user.save();
+        console.log('Got in here 4');
         const token = await user.generateAuthTokens();
+        console.log('Got in here 5');
         res.header('x-auth', token).send(user);
     } catch (e) {
         res.status(400).send(e);
@@ -17,11 +26,11 @@ app.post('/users', async (req, res) => {
 
 });
 
-app.get('/users/me', authenticate, (req, res) => {
+router.get('/me', authenticate, (req, res) => {
     res.send(req.user);
 });
 
-app.post('/users/login', async (req, res) => {
+router.post('/login', async (req, res) => {
 
     try {
         const body = _.pick(req.body, ['email', 'password']);
@@ -34,7 +43,7 @@ app.post('/users/login', async (req, res) => {
 
 });
 
-app.delete('/users/me/token', authenticate, async (req, res) => {
+router.delete('/me/token', authenticate, async (req, res) => {
 
     try {
         await req.user.removeToken(req.token);
@@ -44,3 +53,5 @@ app.delete('/users/me/token', authenticate, async (req, res) => {
     }
 
 });
+
+module.exports = router;
